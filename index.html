@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>박민수 ♥ 강율희 모바일 청첩장</title>
+    
+    <!-- SEO 및 소셜 공유 메타태그 (카카오톡 Open Graph) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="박민수 ♥ 강율희 결혼합니다">
+    <meta property="og:description" content="2026년 9월 13일 일요일 오후 2시 50분 | 서울웨딩타워">
+    <meta property="og:image" content="images/11.jpg">
+    <meta property="og:url" content="">
+
+    <!-- 웹폰트 : Cormorant Garamond + Noto Serif KR + Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #FAF8F5;       /* Warm Cream Beige */
+            --bg-card: #FFFFFF;          /* Pure White */
+            --text-main: #2C2C2A;        /* Deep Charcoal */
+            --text-sub: #7A7873;         /* Warm Gray */
+            --accent-gold: #B89762;      /* Antique Gold */
+            --accent-gold-light: #F4EFE6;/* Light Gold Tint */
+            --border-line: #EAE5DD;      /* Subtle Line */
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --font-serif: 'Noto Serif KR', serif;
+            --font-sans: 'Noto Sans KR', sans-serif;
+            --font-en: 'Cormorant Garamond', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            font-family: var(--font-serif);
+            color: var(--text-main);
+            word-break: keep-all;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-wrapper {
+            max-width: 450px;
+            min-height: 100vh;
+            margin: 0 auto;
+            background-color: var(--bg-primary);
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        section {
+            padding: 70px 24px;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title .en-sub {
+            font-family: var(--font-en);
+            font-size: 0.95rem;
+            letter-spacing: 4px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .section-title .ko-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .gold-divider {
+            width: 30px;
+            height: 1px;
+            background-color: var(--accent-gold);
+            margin: 18px auto;
+            opacity: 0.7;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section {
+            padding: 0;
+            height: 100vh;
+            min-height: 650px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .hero-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.45) 100%), 
+                        url('images/11.jpg') center/cover no-repeat;
+        }
+
+        .hero-bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%);
+            z-index: 2;
+        }
+
+        .hero-top-text {
+            position: relative;
+            z-index: 3;
+            padding-top: 60px;
+        }
+
+        .hero-top-text .subtitle {
+            font-family: var(--font-en);
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .hero-top-text .title {
+            font-family: var(--font-en);
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .hero-bottom-text {
+            position: relative;
+            z-index: 3;
+            padding-bottom: 45px;
+            width: 100%;
+        }
+
+        .hero-names {
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .hero-names span {
+            font-size: 1rem;
+            color: var(--accent-gold);
+            margin: 0 6px;
+        }
+
+        .hero-date {
+            font-family: var(--font-en);
+            font-size: 1.05rem;
+            letter-spacing: 2px;
+            opacity: 0.95;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+
+        .scroll-down-indicator {
+            display: inline-block;
+            animation: bounce 2s infinite;
+            opacity: 0.8;
+        }
+
+        .scroll-down-indicator svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #FFFFFF;
+            stroke-width: 1.5;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
+        .greeting-card {
+            text-align: center;
+        }
+
+        .greeting-text {
+            font-size: 0.98rem;
+            line-height: 2.2;
+            color: var(--text-main);
+            font-weight: 300;
+            margin-bottom: 35px;
+        }
+
+        .couple-relation {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            margin-top: 20px;
+            padding: 24px;
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-line);
+        }
+
+        .relation-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .relation-row .parents {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        .relation-row .role {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-left: 4px;
+        }
+
+        .relation-row .name {
+            font-weight: 500;
+        }
+
+        .dday-container {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-gold-light) 100%);
+            border: 1px solid rgba(184, 151, 98, 0.2);
+            border-radius: 16px;
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .dday-title {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .dday-timer {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .timer-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .timer-box .num {
+            font-family: var(--font-en);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            line-height: 1;
+        }
+
+        .timer-box .label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-top: 6px;
+            font-family: var(--font-en);
+            text-transform: uppercase;
+        }
+
+        .dday-badge {
+            margin-top: 18px;
+            display: inline-block;
+            padding: 6px 16px;
+            background-color: var(--accent-gold);
+            color: #FFFFFF;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .map-box {
+            width: 100%;
+            background-color: #F5F2ED;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-line);
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .nav-notice-box {
+            background-color: var(--accent-gold-light);
+            border-left: 3px solid var(--accent-gold);
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: #555048;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .nav-notice-box strong {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .map-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .btn-map {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            transition: background 0.2s;
+        }
+
+        .btn-map:active {
+            background-color: var(--bg-primary);
+        }
+
+        .gallery-carousel-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .gallery-carousel {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 4px 2px 14px 2px;
+            scrollbar-width: none;
+        }
+
+        .gallery-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-item {
+            flex: 0 0 calc(25% - 7.5px);
+            min-width: 0;
+            position: relative;
+            aspect-ratio: 3 / 4;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #E2DDD3;
+            cursor: pointer;
+            box-shadow: var(--shadow-soft);
+            scroll-snap-align: start;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item:active img {
+            opacity: 0.85;
+        }
+
+        .gallery-hint {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            margin-top: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.94);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            touch-action: none;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            z-index: 20;
+            box-sizing: border-box;
+        }
+
+        .lightbox-counter {
+            font-family: var(--font-en);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+        }
+
+        .lightbox-close-btn {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 4px 10px;
+            line-height: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 16px 30px 16px;
+            box-sizing: border-box;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 82vh;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+            touch-action: none;
+            margin: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 12px;
+            pointer-events: none;
+            box-sizing: border-box;
+            z-index: 15;
+        }
+
+        .lightbox-arrow {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(4px);
+            border: none;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: background 0.2s;
+        }
+
+        .lightbox-arrow svg {
+            width: 20px;
+            height: 20px;
+            fill: #FFFFFF;
+        }
+
+        .account-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .accordion-item {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-line);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            font-family: var(--font-serif);
+            font-size: 1.02rem;
+            font-weight: 500;
+            color: var(--text-main);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .accordion-header .arrow-icon {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s ease;
+            fill: var(--text-sub);
+        }
+
+        .accordion-item.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background-color: #FCFBF9;
+        }
+
+        .accordion-item.open .accordion-body {
+            max-height: 300px;
+            padding: 0 20px 20px 20px;
+            border-top: 1px dashed var(--border-line);
+        }
+
+        .account-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+        }
+
+        .account-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .account-info .bank-name {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+        }
+
+        .account-info .account-num {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 0.3px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .account-info .holder {
+            font-size: 0.88rem;
+            color: var(--text-main);
+        }
+
+        .btn-copy {
+            padding: 8px 14px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:active {
+            background-color: var(--accent-gold);
+            color: #FFFFFF;
+        }
+
+        .rsvp-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-line);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-line);
+            border-radius: 8px;
+            background-color: var(--bg-primary);
+            font-family: var(--font-serif);
+            font-size: 0.92rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .radio-btn {
+            position: relative;
+        }
+
+        .radio-btn input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-btn label {
+            display: block;
+            text-align: center;
+            padding: 12px 0;
+            border: 1px solid var(--border-line);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            cursor: pointer;
+            background-color: var(--bg-primary);
+            transition: all 0.2s;
+        }
+
+        .radio-btn input:checked + label {
+            border-color: var(--accent-gold);
+            background-color: var(--accent-gold-light);
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px 0;
+            background-color: var(--accent-gold);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(184, 151, 98, 0.3);
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:active {
+            background-color: #a38350;
+        }
+
+        .footer {
+            padding: 40px 24px 60px 24px;
+            text-align: center;
+            background-color: #242321;
+            color: #8C8881;
+            font-size: 0.82rem;
+            line-height: 1.8;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: rgba(44, 44, 42, 0.92);
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <!-- 1. 메인 커버 화면 -->
+        <section class="hero-section">
+            <div class="hero-bg-image"></div>
+            <div class="hero-bg-overlay"></div>
+
+            <div class="hero-top-text fade-up">
+                <p class="subtitle">Wedding Invitation</p>
+                <h1 class="title">INVITATION</h1>
+            </div>
+
+            <div class="hero-bottom-text fade-up">
+                <div class="hero-names">
+                    강율희<span>♥</span>박민수
+                </div>
+                <p class="hero-date">2026 . 09 . 13 . SUN . PM 2:50</p>
+                <div class="scroll-down-indicator">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 5v14M5 12l7 7 7-7"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 초대글 -->
+        <section class="greeting-section fade-up">
+            <div class="section-title">
+                <span class="en-sub">INVITATION</span>
+                <div class="gold-divider"></div>
+            </div>
+
+            <div class="greeting-card">
+                <p class="greeting-text">
+                    각자의 계절을 지나온 두 사람이<br>
+                    평범한 하루를 가장 소중한 날로 만들며<br>
+                    이제 하나의 시간을 걸어가려 합니다.<br><br>
+                    기쁜 마음으로 자리를 빛내 주시길 바랍니다.
+                </p>
+
+                <!-- 혼주 및 신랑/신부 관계 -->
+                <div class="couple-relation">
+                    <div class="relation-row">
+                        <span class="parents">박창남 · 홍윤경</span>
+                        <span class="role">의 장남</span>
+                        <span class="name">민수</span>
+                    </div>
+                    <div class="relation-row">
+                        <span class="parents">강발원 · 진미영</span>
+                        <span class="role">의 차녀</span>
+                        <span class="name">율희</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. D-DAY COUNTER -->
+            <div class="dday-container fade-up">
+                <p class="dday-title">민수 ♥ 율희의 예식까지</p>
+                <div class="dday-timer">
+                    <div class="timer-box">
+                        <span class="num" id="dday-days">00</span>
+                        <span class="label">DAYS</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="num" id="dday-hours">00</span>
+                        <span class="label">HOURS</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="num" id="dday-mins">00</span>
+                        <span class="label">MINS</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="num" id="dday-secs">00</span>
+                        <span class="label">SECS</span>
+                    </div>
+                </div>
+                <div class="dday-badge" id="dday-badge-text">D-DAY를 계산 중입니다</div>
+            </div>
+        </section>
+
+        <!-- 4. 오시는 길 -->
+        <section class="location-section fade-up">
+            <div class="section-title">
+                <span class="en-sub">LOCATION</span>
+                <h2 class="ko-title">오시는 길</h2>
+                <div class="gold-divider"></div>
+            </div>
+
+            <!-- 약도 이미지 (자동 확장자 실패 감지 로직 적용) -->
+            <div class="map-box" id="mapBoxContainer">
+                <img id="mapImage" src="images/map.png" alt="오시는 길 약도" onerror="handleMapError(this)">
+            </div>
+
+            <!-- 내비게이션 안내 문구 -->
+            <div class="nav-notice-box">
+                💡 <strong>'서울웨딩타워'</strong>로 검색하셔야 동문주차장으로 안내받으실 수 있습니다.
+            </div>
+
+            <div class="map-buttons">
+                <a href="https://map.kakao.com/link/search/서울웨딩타워" target="_blank" class="btn-map">카카오맵</a>
+                <a href="https://map.naver.com/v5/search/서울웨딩타워" target="_blank" class="btn-map">네이버 지도</a>
+                <a href="https://tmap.co.kr" target="_blank" class="btn-map">티맵</a>
+            </div>
+        </section>
+
+        <!-- 5. 웨딩 갤러리 -->
+        <section class="gallery-section fade-up">
+            <div class="section-title">
+                <span class="en-sub">GALLERY</span>
+                <h2 class="ko-title">소중한 순간들</h2>
+                <div class="gold-divider"></div>
+            </div>
+
+            <!-- 모바일 캐러셀 -->
+            <div class="gallery-carousel-wrapper">
+                <div class="gallery-carousel" id="galleryCarousel">
+                    <div class="gallery-item" onclick="openLightbox(0)"><img src="images/12.jpg" alt="갤러리 사진 1" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(1)"><img src="images/13.jpg" alt="갤러리 사진 2" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(2)"><img src="images/14.jpg" alt="갤러리 사진 3" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(3)"><img src="images/15.jpg" alt="갤러리 사진 4" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(4)"><img src="images/16.jpg" alt="갤러리 사진 5" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(5)"><img src="images/17.jpg" alt="갤러리 사진 6" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(6)"><img src="images/18.jpg" alt="갤러리 사진 7" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(7)"><img src="images/19.jpg" alt="갤러리 사진 8" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(8)"><img src="images/20.jpg" alt="갤러리 사진 9" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(9)"><img src="images/21.jpg" alt="갤러리 사진 10" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(10)"><img src="images/22.jpg" alt="갤러리 사진 11" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(11)"><img src="images/23.jpg" alt="갤러리 사진 12" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(12)"><img src="images/24.jpg" alt="갤러리 사진 13" loading="lazy"></div>
+                    <div class="gallery-item" onclick="openLightbox(13)"><img src="images/25.jpg" alt="갤러리 사진 14" loading="lazy"></div>
+                </div>
+                <p class="gallery-hint">↔ 좌우로 슬라이드하여 사진을 보실 수 있습니다</p>
+            </div>
+        </section>
+
+        <!-- 6. 마음 전하는 곳 -->
+        <section class="accounts-section fade-up">
+            <div class="section-title">
+                <span class="en-sub">ACCOUNT</span>
+                <h2 class="ko-title">마음 전하실 곳</h2>
+                <div class="gold-divider"></div>
+            </div>
+
+            <div class="account-tabs">
+                <!-- 신랑측 계좌 -->
+                <div class="accordion-item" id="acc-groom">
+                    <button class="accordion-header" onclick="toggleAccordion('acc-groom')">
+                        <span>신랑측 계좌번호</span>
+                        <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="account-row">
+                            <div class="account-info">
+                                <span class="bank-name">우리은행</span>
+                                <span class="account-num">548-149604-02-101</span>
+                                <span class="holder">예금주: 박민수</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyAccount('우리은행 548-149604-02-101')">복사하기</button>
+                        </div>
+                        <div class="account-row" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #EAE5DD;">
+                            <div class="account-info">
+                                <span class="bank-name">우리은행</span>
+                                <span class="account-num">548-145927-02-101</span>
+                                <span class="holder">예금주: 홍윤경</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyAccount('우리은행 548-145927-02-101')">복사하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 신부측 계좌 -->
+                <div class="accordion-item" id="acc-bride">
+                    <button class="accordion-header" onclick="toggleAccordion('acc-bride')">
+                        <span>신부측 계좌번호</span>
+                        <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="account-row">
+                            <div class="account-info">
+                                <span class="bank-name">국민은행</span>
+                                <span class="account-num">390402-04-102687</span>
+                                <span class="holder">예금주: 강율희</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyAccount('국민은행 390402-04-102687')">복사하기</button>
+                        </div>
+                        <div class="account-row" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #EAE5DD;">
+                            <div class="account-info">
+                                <span class="bank-name">농협은행</span>
+                                <span class="account-num">1337-02-000791</span>
+                                <span class="holder">예금주: 강발원</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyAccount('농협은행 1337-02-000791')">복사하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. 참석 여부 -->
+        <section class="rsvp-section fade-up">
+            <div class="section-title">
+                <span class="en-sub">R.S.V.P</span>
+                <h2 class="ko-title">참석 여부 전달하기</h2>
+                <div class="gold-divider"></div>
+            </div>
+
+            <div class="rsvp-card">
+                <form id="rsvpForm" onsubmit="handleRsvpSubmit(event)">
+                    <div class="form-group">
+                        <label class="form-label">구분</label>
+                        <div class="radio-group">
+                            <div class="radio-btn">
+                                <input type="radio" id="side-bride" name="side" value="bride" checked>
+                                <label for="side-bride">신부측</label>
+                            </div>
+                            <div class="radio-btn">
+                                <input type="radio" id="side-groom" name="side" value="groom">
+                                <label for="side-groom">신랑측</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guestName" class="form-label">성함</label>
+                        <input type="text" id="guestName" class="form-input" placeholder="성함을 입력해주세요" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">참석 여부</label>
+                        <div class="radio-group">
+                            <div class="radio-btn">
+                                <input type="radio" id="attend-yes" name="attendance" value="참석" checked>
+                                <label for="attend-yes">참석 가능</label>
+                            </div>
+                            <div class="radio-btn">
+                                <input type="radio" id="attend-no" name="attendance" value="불참">
+                                <label for="attend-no">참석 어려움</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guestCount" class="form-label">동행 인원 (본인 포함)</label>
+                        <select id="guestCount" class="form-select">
+                            <option value="1명">1명</option>
+                            <option value="2명">2명</option>
+                            <option value="3명">3명</option>
+                            <option value="4명 이상">4명 이상</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-submit">참석 정보 전달하기</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>소중한 걸음으로 축복해 주셔서 감사합니다.</p>
+            <p style="margin-top: 12px; opacity: 0.4; font-size: 0.72rem;">© 2026. All Rights Reserved.</p>
+        </footer>
+
+    </div>
+
+    <!-- LIGHTBOX GALLERY MODAL -->
+    <div class="lightbox-modal" id="lightboxModal">
+        <div class="lightbox-header">
+            <span class="lightbox-counter" id="lightboxCounter">1 / 14</span>
+            <button class="lightbox-close-btn" onclick="closeLightbox()">&times;</button>
+        </div>
+        <div class="lightbox-content">
+            <img class="lightbox-img" id="lightboxImg" src="" alt="갤러리 확대 사진">
+            <div class="lightbox-nav">
+                <button class="lightbox-arrow" onclick="prevLightboxImage()">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="lightbox-arrow" onclick="nextLightboxImage()">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast" id="toast">계좌번호가 복사되었습니다.</div>
+
+    <script>
+        /* ----------------------------------------------------------
+           A. MAP IMAGE FALLBACK (GitHub Pages 대소문자/확장자 자동대응)
+           ---------------------------------------------------------- */
+        let mapErrorTryCount = 0;
+        const mapExtensions = ['images/map.jpg', 'images/map.jpeg', 'images/map.PNG', 'images/map.JPG', 'images/MAP.png'];
+
+        function handleMapError(img) {
+            if (mapErrorTryCount < mapExtensions.length) {
+                img.src = mapExtensions[mapErrorTryCount];
+                mapErrorTryCount++;
+            } else {
+                img.onerror = null;
+                img.style.display = 'none';
+                const mapBox = document.getElementById("mapBoxContainer");
+                if (mapBox) {
+                    mapBox.innerHTML = '<div style="padding: 35px 20px; text-align: center; color: var(--text-sub); font-size: 0.88rem; line-height: 1.6;">약도 이미지를 찾을 수 없습니다.<br><span style="font-size: 0.78rem; color: #999;">(저장소 images/ 폴더 안에 map.png 또는 map.jpg 파일명을 확인해 주세요)</span></div>';
+                }
+            }
+        }
+
+
+        /* ----------------------------------------------------------
+           B. D-DAY AUTOMATIC COUNTER
+           ---------------------------------------------------------- */
+        const weddingDate = new Date(2026, 8, 13, 14, 50, 0);
+
+        function updateDday() {
+            const now = new Date();
+            const diff = weddingDate - now;
+
+            const daysEl = document.getElementById('dday-days');
+            const hoursEl = document.getElementById('dday-hours');
+            const minsEl = document.getElementById('dday-mins');
+            const secsEl = document.getElementById('dday-secs');
+            const badgeEl = document.getElementById('dday-badge-text');
+
+            if (diff <= 0) {
+                daysEl.innerText = "00";
+                hoursEl.innerText = "00";
+                minsEl.innerText = "00";
+                secsEl.innerText = "00";
+                badgeEl.innerText = "오늘은 박민수 ♥ 강율희의 결혼식입니다!";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            daysEl.innerText = String(days).padStart(2, '0');
+            hoursEl.innerText = String(hours).padStart(2, '0');
+            minsEl.innerText = String(mins).padStart(2, '0');
+            secsEl.innerText = String(secs).padStart(2, '0');
+
+            badgeEl.innerText = `결혼식이 ${days}일 남았습니다.`;
+        }
+
+        setInterval(updateDday, 1000);
+        updateDday();
+
+
+        /* ----------------------------------------------------------
+           C. SCROLL INTERSECTION OBSERVER
+           ---------------------------------------------------------- */
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+        });
+
+
+        /* ----------------------------------------------------------
+           D. ACCORDION TOGGLE
+           ---------------------------------------------------------- */
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            const isOpen = item.classList.contains("open");
+
+            document.querySelectorAll(".accordion-item").forEach(acc => acc.classList.remove("open"));
+
+            if (!isOpen) {
+                item.classList.add("open");
+            }
+        }
+
+
+        /* ----------------------------------------------------------
+           E. SAFE ACCOUNT COPY TO CLIPBOARD
+           ---------------------------------------------------------- */
+        function copyAccount(text) {
+            try {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                textarea.style.position = "fixed";
+                textarea.style.top = "0";
+                textarea.style.left = "0";
+                textarea.style.opacity = "0";
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                if (successful) {
+                    showToast("계좌번호가 복사되었습니다.");
+                } else {
+                    prompt("아래 계좌번호를 복사해주세요:", text);
+                }
+            } catch (err) {
+                prompt("아래 계좌번호를 복사해주세요:", text);
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+
+        /* ----------------------------------------------------------
+           F. GALLERY LIGHTBOX MODAL & SWIPE HANDLER
+           ---------------------------------------------------------- */
+        const galleryImages = [
+            "images/12.jpg",
+            "images/13.jpg",
+            "images/14.jpg",
+            "images/15.jpg",
+            "images/16.jpg",
+            "images/17.jpg",
+            "images/18.jpg",
+            "images/19.jpg",
+            "images/20.jpg",
+            "images/21.jpg",
+            "images/22.jpg",
+            "images/23.jpg",
+            "images/24.jpg",
+            "images/25.jpg"
+        ];
+
+        let currentImgIndex = 0;
+
+        function openLightbox(index) {
+            currentImgIndex = index;
+            updateLightboxContent();
+            document.getElementById("lightboxModal").classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeLightbox() {
+            document.getElementById("lightboxModal").classList.remove("active");
+            document.body.style.overflow = "";
+        }
+
+        function updateLightboxContent() {
+            document.getElementById("lightboxImg").src = galleryImages[currentImgIndex];
+            document.getElementById("lightboxCounter").innerText = `${currentImgIndex + 1} / ${galleryImages.length}`;
+        }
+
+        function prevLightboxImage() {
+            currentImgIndex = (currentImgIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateLightboxContent();
+        }
+
+        function nextLightboxImage() {
+            currentImgIndex = (currentImgIndex + 1) % galleryImages.length;
+            updateLightboxContent();
+        }
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const lightboxModal = document.getElementById("lightboxModal");
+        lightboxModal.addEventListener("touchstart", (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightboxModal.addEventListener("touchend", (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 40;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                nextLightboxImage();
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                prevLightboxImage();
+            }
+        }
+
+
+        /* ----------------------------------------------------------
+           G. RSVP FORM SUBMISSION
+           ---------------------------------------------------------- */
+        function handleRsvpSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById("guestName").value;
+            const attendance = document.querySelector('input[name="attendance"]:checked').value;
+
+            showToast(`${name}님, 참석 여부(${attendance})가 전달되었습니다.`);
+            document.getElementById("rsvpForm").reset();
+        }
+    </script>
+</body>
+</html>
