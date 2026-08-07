@@ -17,6 +17,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+    <script>
+        function handleGalleryImgError(img, originalSrc) {
+            if (!img || img.dataset.failed) return;
+            const exts = ['.jpg', '.JPG', '.png', '.PNG', '.jpeg', '.webp'];
+            let currentStep = parseInt(img.dataset.errorStep || '0');
+            if (currentStep < exts.length) {
+                const lastDotIndex = originalSrc.lastIndexOf('.');
+                const basePath = lastDotIndex !== -1 ? originalSrc.substring(0, lastDotIndex) : originalSrc;
+                img.dataset.errorStep = currentStep + 1;
+                img.src = basePath + exts[currentStep];
+            } else {
+                img.dataset.failed = 'true';
+            }
+        }
+
+        function handleMapError(img) {
+            if (!img || img.dataset.failed) return;
+            const mapPaths = ['images/map.png', 'images/map.jpg', 'images/map.PNG', 'images/map.JPG', 'images/map.jpeg'];
+            let currentStep = parseInt(img.dataset.errorStep || '0');
+            if (currentStep < mapPaths.length) {
+                img.dataset.errorStep = currentStep + 1;
+                img.src = mapPaths[currentStep];
+            } else {
+                img.dataset.failed = 'true';
+                img.style.display = 'none';
+                const parent = img.parentElement;
+                if (parent) {
+                    parent.innerHTML = '<div style="padding:40px; text-align:center; color:#7A7873; font-size:0.85rem;">약도 이미지를 찾을 수 없습니다.<br>(images/map.png 파일 경로를 확인해주세요)</div>';
+                }
+            }
+        }
+    </script>
+
     <style>
         :root {
             --bg-primary: #FAF8F5;       /* Warm Cream Beige */
@@ -72,19 +105,13 @@
 
         .section-title .en-sub {
             font-family: var(--font-en);
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             letter-spacing: 4px;
             color: var(--accent-gold);
             text-transform: uppercase;
             display: block;
-            margin-bottom: 6px;
-        }
-
-        .section-title .ko-title {
-            font-size: 1.25rem;
-            font-weight: 500;
-            letter-spacing: -0.5px;
-            color: var(--text-main);
+            margin-bottom: 4px;
+            font-weight: 600;
         }
 
         .gold-divider {
@@ -106,6 +133,7 @@
             transform: translateY(0);
         }
 
+        /* Hero Section */
         .hero-section {
             padding: 0;
             height: 100vh;
@@ -137,7 +165,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%);
+            background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%);
             z-index: 2;
         }
 
@@ -147,20 +175,13 @@
             padding-top: 60px;
         }
 
-        .hero-top-text .subtitle {
-            font-family: var(--font-en);
-            font-size: 0.9rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            opacity: 0.9;
-        }
-
         .hero-top-text .title {
             font-family: var(--font-en);
-            font-size: 2.2rem;
-            font-weight: 300;
-            letter-spacing: 2px;
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
 
         .hero-bottom-text {
@@ -213,6 +234,7 @@
             60% { transform: translateY(-4px); }
         }
 
+        /* Greeting Card */
         .greeting-card {
             text-align: center;
         }
@@ -255,71 +277,90 @@
         .relation-row .role {
             font-size: 0.85rem;
             color: var(--accent-gold);
-            margin-left: 4px;
+            margin-left: 2px;
         }
 
         .relation-row .name {
             font-weight: 500;
         }
 
-        .dday-container {
-            margin-top: 40px;
-            background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-gold-light) 100%);
-            border: 1px solid rgba(184, 151, 98, 0.2);
-            border-radius: 16px;
-            padding: 28px 20px;
-            text-align: center;
+        /* Gallery Section : Page Slide (2 Columns x 3 Rows) */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .gallery-paged-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            width: 100%;
+        }
+
+        .gallery-paged-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-page {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            box-sizing: border-box;
+            padding: 2px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 3 / 4;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #E2DDD3;
+            cursor: pointer;
             box-shadow: var(--shadow-soft);
+            transition: transform 0.2s ease;
         }
 
-        .dday-title {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            margin-bottom: 16px;
-            letter-spacing: 1px;
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
-        .dday-timer {
+        .gallery-item:active {
+            transform: scale(0.98);
+        }
+
+        /* Pagination Dots */
+        .gallery-dots {
             display: flex;
             justify-content: center;
-            gap: 16px;
-        }
-
-        .timer-box {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            min-width: 60px;
+            gap: 8px;
+            margin-top: 20px;
         }
 
-        .timer-box .num {
-            font-family: var(--font-en);
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--accent-gold);
-            line-height: 1;
+        .gallery-dots .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #D3CDC4;
+            transition: all 0.3s ease;
         }
 
-        .timer-box .label {
-            font-size: 0.75rem;
-            color: var(--text-sub);
-            margin-top: 6px;
-            font-family: var(--font-en);
-            text-transform: uppercase;
-        }
-
-        .dday-badge {
-            margin-top: 18px;
-            display: inline-block;
-            padding: 6px 16px;
+        .gallery-dots .dot.active {
+            width: 22px;
+            border-radius: 4px;
             background-color: var(--accent-gold);
-            color: #FFFFFF;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
         }
 
+        /* Location Section */
         .map-box {
             width: 100%;
             background-color: #F5F2ED;
@@ -328,7 +369,7 @@
             position: relative;
             margin-bottom: 20px;
             border: 1px solid var(--border-line);
-            min-height: 150px;
+            min-height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -384,169 +425,7 @@
             background-color: var(--bg-primary);
         }
 
-        .gallery-carousel-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .gallery-carousel {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            padding: 4px 2px 14px 2px;
-            scrollbar-width: none;
-        }
-
-        .gallery-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .gallery-item {
-            flex: 0 0 calc(25% - 7.5px);
-            min-width: 0;
-            position: relative;
-            aspect-ratio: 3 / 4;
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: #E2DDD3;
-            cursor: pointer;
-            box-shadow: var(--shadow-soft);
-            scroll-snap-align: start;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .gallery-item:active img {
-            opacity: 0.85;
-        }
-
-        .gallery-hint {
-            text-align: center;
-            font-size: 0.78rem;
-            color: var(--text-sub);
-            margin-top: 10px;
-            letter-spacing: -0.3px;
-        }
-
-        .lightbox-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.94);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            touch-action: none;
-        }
-
-        .lightbox-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .lightbox-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #FFFFFF;
-            z-index: 20;
-            box-sizing: border-box;
-        }
-
-        .lightbox-counter {
-            font-family: var(--font-en);
-            font-size: 0.95rem;
-            letter-spacing: 2px;
-        }
-
-        .lightbox-close-btn {
-            background: none;
-            border: none;
-            color: #FFFFFF;
-            font-size: 1.8rem;
-            cursor: pointer;
-            padding: 4px 10px;
-            line-height: 1;
-        }
-
-        .lightbox-content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 70px 16px 30px 16px;
-            box-sizing: border-box;
-        }
-
-        .lightbox-img {
-            max-width: 100%;
-            max-height: 82vh;
-            object-fit: contain;
-            user-select: none;
-            -webkit-user-drag: none;
-            touch-action: none;
-            margin: auto;
-            display: block;
-            border-radius: 4px;
-        }
-
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 12px;
-            pointer-events: none;
-            box-sizing: border-box;
-            z-index: 15;
-        }
-
-        .lightbox-arrow {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(4px);
-            border: none;
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            pointer-events: auto;
-            transition: background 0.2s;
-        }
-
-        .lightbox-arrow svg {
-            width: 20px;
-            height: 20px;
-            fill: #FFFFFF;
-        }
-
+        /* Account Section */
         .account-tabs {
             display: flex;
             flex-direction: column;
@@ -650,34 +529,35 @@
             color: #FFFFFF;
         }
 
+        /* RSVP Section */
         .rsvp-card {
             background-color: var(--bg-card);
             border-radius: 16px;
-            padding: 32px 24px;
+            padding: 22px 20px;
             box-shadow: var(--shadow-soft);
             border: 1px solid var(--border-line);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .form-label {
             display: block;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             color: var(--text-main);
         }
 
         .form-input, .form-select {
             width: 100%;
-            padding: 14px 16px;
+            padding: 10px 14px;
             border: 1px solid var(--border-line);
             border-radius: 8px;
             background-color: var(--bg-primary);
             font-family: var(--font-serif);
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             color: var(--text-main);
             outline: none;
             transition: border-color 0.2s;
@@ -690,7 +570,7 @@
         .radio-group {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
         .radio-btn {
@@ -707,10 +587,11 @@
         .radio-btn label {
             display: block;
             text-align: center;
-            padding: 12px 0;
+            padding: 9px 0;
             border: 1px solid var(--border-line);
             border-radius: 8px;
-            font-size: 0.88rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             color: var(--text-sub);
             cursor: pointer;
             background-color: var(--bg-primary);
@@ -724,24 +605,199 @@
             font-weight: 600;
         }
 
+        .radio-btn input:disabled + label, .form-select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .btn-submit {
             width: 100%;
-            padding: 16px 0;
+            padding: 13px 0;
             background-color: var(--accent-gold);
             color: #FFFFFF;
             border: none;
             border-radius: 8px;
             font-family: var(--font-serif);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(184, 151, 98, 0.3);
-            margin-top: 10px;
+            margin-top: 6px;
             transition: background 0.2s;
         }
 
         .btn-submit:active {
             background-color: #a38350;
+        }
+
+        /* D-Day Section */
+        .dday-container {
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-gold-light) 100%);
+            border: 1px solid rgba(184, 151, 98, 0.2);
+            border-radius: 16px;
+            padding: 32px 20px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .dday-title {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+
+        .dday-timer {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .timer-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .timer-box .num {
+            font-family: var(--font-en);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            line-height: 1;
+        }
+
+        .timer-box .label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-top: 6px;
+            font-family: var(--font-en);
+            text-transform: uppercase;
+        }
+
+        .dday-badge {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: var(--accent-gold);
+            color: #FFFFFF;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* Lightbox Modal */
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.94);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            touch-action: none;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            z-index: 20;
+            box-sizing: border-box;
+        }
+
+        .lightbox-counter {
+            font-family: var(--font-en);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+        }
+
+        .lightbox-close-btn {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 4px 10px;
+            line-height: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 16px 20px 16px;
+            box-sizing: border-box;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+            touch-action: none;
+            margin: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 12px;
+            pointer-events: none;
+            box-sizing: border-box;
+            z-index: 15;
+        }
+
+        .lightbox-arrow {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(4px);
+            border: none;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: background 0.2s;
+        }
+
+        .lightbox-arrow svg {
+            width: 20px;
+            height: 20px;
+            fill: #FFFFFF;
         }
 
         .footer {
@@ -780,14 +836,13 @@
 
     <div class="app-wrapper">
 
-        <!-- 1. 메인 커버 화면 -->
+        <!-- ① 커버 & 초대글 (메인) -->
         <section class="hero-section">
             <div class="hero-bg-image"></div>
             <div class="hero-bg-overlay"></div>
 
             <div class="hero-top-text fade-up">
-                <p class="subtitle">Wedding Invitation</p>
-                <h1 class="title">INVITATION</h1>
+                <h1 class="title">WEDDING INVITATION</h1>
             </div>
 
             <div class="hero-bottom-text fade-up">
@@ -803,7 +858,6 @@
             </div>
         </section>
 
-        <!-- 2. 초대글 -->
         <section class="greeting-section fade-up">
             <div class="section-title">
                 <span class="en-sub">INVITATION</span>
@@ -822,51 +876,74 @@
                 <div class="couple-relation">
                     <div class="relation-row">
                         <span class="parents">박창남 · 홍윤경</span>
-                        <span class="role">의 장남</span>
+                        <span class="role">의 아들</span>
                         <span class="name">민수</span>
                     </div>
                     <div class="relation-row">
                         <span class="parents">강발원 · 진미영</span>
-                        <span class="role">의 차녀</span>
+                        <span class="role">의 딸</span>
                         <span class="name">율희</span>
                     </div>
                 </div>
             </div>
-
-            <!-- 3. D-DAY COUNTER -->
-            <div class="dday-container fade-up">
-                <p class="dday-title">민수 ♥ 율희의 예식까지</p>
-                <div class="dday-timer">
-                    <div class="timer-box">
-                        <span class="num" id="dday-days">00</span>
-                        <span class="label">DAYS</span>
-                    </div>
-                    <div class="timer-box">
-                        <span class="num" id="dday-hours">00</span>
-                        <span class="label">HOURS</span>
-                    </div>
-                    <div class="timer-box">
-                        <span class="num" id="dday-mins">00</span>
-                        <span class="label">MINS</span>
-                    </div>
-                    <div class="timer-box">
-                        <span class="num" id="dday-secs">00</span>
-                        <span class="label">SECS</span>
-                    </div>
-                </div>
-                <div class="dday-badge" id="dday-badge-text">D-DAY를 계산 중입니다</div>
-            </div>
         </section>
 
-        <!-- 4. 오시는 길 -->
-        <section class="location-section fade-up">
+        <!-- ② GALLERY (페이지 단위 스와이프: 페이지당 6장) -->
+        <section class="gallery-section fade-up">
             <div class="section-title">
-                <span class="en-sub">LOCATION</span>
-                <h2 class="ko-title">오시는 길</h2>
+                <span class="en-sub">GALLERY</span>
                 <div class="gold-divider"></div>
             </div>
 
-            <!-- 약도 이미지 (자동 확장자 실패 감지 로직 적용) -->
+            <div class="gallery-container">
+                <!-- 페이지 단위 가로 슬라이더 -->
+                <div class="gallery-paged-slider" id="gallerySlider">
+                    
+                    <!-- 1페이지 (썸네일 1 ~ 6) -->
+                    <div class="gallery-page">
+                        <div class="gallery-item" onclick="openLightbox(0)"><img src="images/12.jpg" alt="갤러리 사진 1" loading="lazy" onerror="handleGalleryImgError(this, 'images/12.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(1)"><img src="images/13.jpg" alt="갤러리 사진 2" loading="lazy" onerror="handleGalleryImgError(this, 'images/13.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(2)"><img src="images/14.jpg" alt="갤러리 사진 3" loading="lazy" onerror="handleGalleryImgError(this, 'images/14.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(3)"><img src="images/15.jpg" alt="갤러리 사진 4" loading="lazy" onerror="handleGalleryImgError(this, 'images/15.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(4)"><img src="images/16.jpg" alt="갤러리 사진 5" loading="lazy" onerror="handleGalleryImgError(this, 'images/16.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(5)"><img src="images/17.jpg" alt="갤러리 사진 6" loading="lazy" onerror="handleGalleryImgError(this, 'images/17.jpg')"></div>
+                    </div>
+
+                    <!-- 2페이지 (썸네일 7 ~ 12) -->
+                    <div class="gallery-page">
+                        <div class="gallery-item" onclick="openLightbox(6)"><img src="images/18.jpg" alt="갤러리 사진 7" loading="lazy" onerror="handleGalleryImgError(this, 'images/18.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(7)"><img src="images/19.jpg" alt="갤러리 사진 8" loading="lazy" onerror="handleGalleryImgError(this, 'images/19.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(8)"><img src="images/20.jpg" alt="갤러리 사진 9" loading="lazy" onerror="handleGalleryImgError(this, 'images/20.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(9)"><img src="images/21.jpg" alt="갤러리 사진 10" loading="lazy" onerror="handleGalleryImgError(this, 'images/21.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(10)"><img src="images/22.jpg" alt="갤러리 사진 11" loading="lazy" onerror="handleGalleryImgError(this, 'images/22.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(11)"><img src="images/23.jpg" alt="갤러리 사진 12" loading="lazy" onerror="handleGalleryImgError(this, 'images/23.jpg')"></div>
+                    </div>
+
+                    <!-- 3페이지 (썸네일 13 ~ 14) -->
+                    <div class="gallery-page">
+                        <div class="gallery-item" onclick="openLightbox(12)"><img src="images/24.jpg" alt="갤러리 사진 13" loading="lazy" onerror="handleGalleryImgError(this, 'images/24.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(13)"><img src="images/25.jpg" alt="갤러리 사진 14" loading="lazy" onerror="handleGalleryImgError(this, 'images/25.jpg')"></div>
+                    </div>
+
+                </div>
+
+                <!-- 페이지 표시 인디케이터 도트 -->
+                <div class="gallery-dots" id="galleryDots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ③ LOCATION -->
+        <section class="location-section fade-up">
+            <div class="section-title">
+                <span class="en-sub">LOCATION</span>
+                <div class="gold-divider"></div>
+            </div>
+
+            <!-- 약도 이미지 (다중 확장자 자동 감지 대응) -->
             <div class="map-box" id="mapBoxContainer">
                 <img id="mapImage" src="images/map.png" alt="오시는 길 약도" onerror="handleMapError(this)">
             </div>
@@ -879,45 +956,14 @@
             <div class="map-buttons">
                 <a href="https://map.kakao.com/link/search/서울웨딩타워" target="_blank" class="btn-map">카카오맵</a>
                 <a href="https://map.naver.com/v5/search/서울웨딩타워" target="_blank" class="btn-map">네이버 지도</a>
-                <a href="https://tmap.co.kr" target="_blank" class="btn-map">티맵</a>
+                <a href="tmap://search?name=서울웨딩타워" class="btn-map" onclick="openTMap(event)">티맵</a>
             </div>
         </section>
 
-        <!-- 5. 웨딩 갤러리 -->
-        <section class="gallery-section fade-up">
-            <div class="section-title">
-                <span class="en-sub">GALLERY</span>
-                <h2 class="ko-title">소중한 순간들</h2>
-                <div class="gold-divider"></div>
-            </div>
-
-            <!-- 모바일 캐러셀 -->
-            <div class="gallery-carousel-wrapper">
-                <div class="gallery-carousel" id="galleryCarousel">
-                    <div class="gallery-item" onclick="openLightbox(0)"><img src="images/12.jpg" alt="갤러리 사진 1" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(1)"><img src="images/13.jpg" alt="갤러리 사진 2" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(2)"><img src="images/14.jpg" alt="갤러리 사진 3" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(3)"><img src="images/15.jpg" alt="갤러리 사진 4" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(4)"><img src="images/16.jpg" alt="갤러리 사진 5" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(5)"><img src="images/17.jpg" alt="갤러리 사진 6" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(6)"><img src="images/18.jpg" alt="갤러리 사진 7" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(7)"><img src="images/19.jpg" alt="갤러리 사진 8" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(8)"><img src="images/20.jpg" alt="갤러리 사진 9" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(9)"><img src="images/21.jpg" alt="갤러리 사진 10" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(10)"><img src="images/22.jpg" alt="갤러리 사진 11" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(11)"><img src="images/23.jpg" alt="갤러리 사진 12" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(12)"><img src="images/24.jpg" alt="갤러리 사진 13" loading="lazy"></div>
-                    <div class="gallery-item" onclick="openLightbox(13)"><img src="images/25.jpg" alt="갤러리 사진 14" loading="lazy"></div>
-                </div>
-                <p class="gallery-hint">↔ 좌우로 슬라이드하여 사진을 보실 수 있습니다</p>
-            </div>
-        </section>
-
-        <!-- 6. 마음 전하는 곳 -->
+        <!-- ④ ACCOUNT -->
         <section class="accounts-section fade-up">
             <div class="section-title">
                 <span class="en-sub">ACCOUNT</span>
-                <h2 class="ko-title">마음 전하실 곳</h2>
                 <div class="gold-divider"></div>
             </div>
 
@@ -976,11 +1022,10 @@
             </div>
         </section>
 
-        <!-- 7. 참석 여부 -->
+        <!-- ⑤ RSVP -->
         <section class="rsvp-section fade-up">
             <div class="section-title">
                 <span class="en-sub">R.S.V.P</span>
-                <h2 class="ko-title">참석 여부 전달하기</h2>
                 <div class="gold-divider"></div>
             </div>
 
@@ -990,12 +1035,12 @@
                         <label class="form-label">구분</label>
                         <div class="radio-group">
                             <div class="radio-btn">
-                                <input type="radio" id="side-bride" name="side" value="bride" checked>
-                                <label for="side-bride">신부측</label>
+                                <input type="radio" id="side-groom" name="side" value="groom" checked>
+                                <label for="side-groom">신랑측</label>
                             </div>
                             <div class="radio-btn">
-                                <input type="radio" id="side-groom" name="side" value="groom">
-                                <label for="side-groom">신랑측</label>
+                                <input type="radio" id="side-bride" name="side" value="bride">
+                                <label for="side-bride">신부측</label>
                             </div>
                         </div>
                     </div>
@@ -1009,12 +1054,12 @@
                         <label class="form-label">참석 여부</label>
                         <div class="radio-group">
                             <div class="radio-btn">
-                                <input type="radio" id="attend-yes" name="attendance" value="참석" checked>
-                                <label for="attend-yes">참석 가능</label>
+                                <input type="radio" id="attend-yes" name="attendance" value="참석" checked onchange="toggleAttendanceFields(true)">
+                                <label for="attend-yes">O</label>
                             </div>
                             <div class="radio-btn">
-                                <input type="radio" id="attend-no" name="attendance" value="불참">
-                                <label for="attend-no">참석 어려움</label>
+                                <input type="radio" id="attend-no" name="attendance" value="불참" onchange="toggleAttendanceFields(false)">
+                                <label for="attend-no">X</label>
                             </div>
                         </div>
                     </div>
@@ -1022,15 +1067,56 @@
                     <div class="form-group">
                         <label for="guestCount" class="form-label">동행 인원 (본인 포함)</label>
                         <select id="guestCount" class="form-select">
-                            <option value="1명">1명</option>
+                            <option value="0명">0명</option>
+                            <option value="1명" selected>1명</option>
                             <option value="2명">2명</option>
                             <option value="3명">3명</option>
                             <option value="4명 이상">4명 이상</option>
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label class="form-label">식사 예정</label>
+                        <div class="radio-group">
+                            <div class="radio-btn">
+                                <input type="radio" id="meal-yes" name="meal" value="예정" checked>
+                                <label for="meal-yes">O</label>
+                            </div>
+                            <div class="radio-btn">
+                                <input type="radio" id="meal-no" name="meal" value="미예정">
+                                <label for="meal-no">X</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn-submit">참석 정보 전달하기</button>
                 </form>
+            </div>
+        </section>
+
+        <!-- ⑥ D-DAY -->
+        <section class="dday-section fade-up">
+            <div class="dday-container">
+                <p class="dday-title">박민수 ♥ 강율희의 예식까지</p>
+                <div class="dday-timer">
+                    <div class="timer-box">
+                        <span class="num" id="dday-days">00</span>
+                        <span class="label">DAYS</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="num" id="dday-hours">00</span>
+                        <span class="label">HOURS</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="num" id="dday-mins">00</span>
+                        <span class="label">MINS</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="num" id="dday-secs">00</span>
+                        <span class="label">SECS</span>
+                    </div>
+                </div>
+                <div class="dday-badge" id="dday-badge-text">D-DAY를 계산 중입니다</div>
             </div>
         </section>
 
@@ -1066,227 +1152,118 @@
 
     <script>
         /* ----------------------------------------------------------
-           A. MAP IMAGE FALLBACK (GitHub Pages 대소문자/확장자 자동대응)
+           RSVP FORM SUBMISSION & TOGGLE
            ---------------------------------------------------------- */
-        let mapErrorTryCount = 0;
-        const mapExtensions = ['images/map.jpg', 'images/map.jpeg', 'images/map.PNG', 'images/map.JPG', 'images/MAP.png'];
+        function toggleAttendanceFields(isAttending) {
+            const guestCountSelect = document.getElementById("guestCount");
+            const mealYesRadio = document.getElementById("meal-yes");
+            const mealNoRadio = document.getElementById("meal-no");
 
-        function handleMapError(img) {
-            if (mapErrorTryCount < mapExtensions.length) {
-                img.src = mapExtensions[mapErrorTryCount];
-                mapErrorTryCount++;
+            if (!isAttending) {
+                guestCountSelect.value = "0명";
+                guestCountSelect.disabled = true;
+                mealNoRadio.checked = true;
+                mealYesRadio.disabled = true;
+                mealNoRadio.disabled = true;
             } else {
-                img.onerror = null;
-                img.style.display = 'none';
-                const mapBox = document.getElementById("mapBoxContainer");
-                if (mapBox) {
-                    mapBox.innerHTML = '<div style="padding: 35px 20px; text-align: center; color: var(--text-sub); font-size: 0.88rem; line-height: 1.6;">약도 이미지를 찾을 수 없습니다.<br><span style="font-size: 0.78rem; color: #999;">(저장소 images/ 폴더 안에 map.png 또는 map.jpg 파일명을 확인해 주세요)</span></div>';
+                guestCountSelect.disabled = false;
+                if (guestCountSelect.value === "0명") {
+                    guestCountSelect.value = "1명";
                 }
+                mealYesRadio.disabled = false;
+                mealNoRadio.disabled = false;
+                mealYesRadio.checked = true;
             }
         }
 
+        function handleRsvpSubmit(event) {
+            event.preventDefault();
+            const side = document.querySelector('input[name="side"]:checked').value === 'groom' ? '신랑측' : '신부측';
+            const name = document.getElementById("guestName").value;
+            const attendance = document.querySelector('input[name="attendance"]:checked').value;
+            const guestCount = document.getElementById("guestCount").value;
+            const meal = document.querySelector('input[name="meal"]:checked').value;
+
+            // Google Sheets 스프레드시트 제출용 데이터 객체 (식사 예정 값 포함)
+            const formData = {
+                side: side,
+                name: name,
+                attendance: attendance,
+                guestCount: guestCount,
+                meal: meal
+            };
+
+            /* Google Sheets Apps Script URL 연결 시 주석을 풀고 URL을 입력하시면 데이터가 구글 시트로 자동 전송됩니다.
+            fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            */
+
+            showToast(`${name}님, 참석 정보가 전달되었습니다.`);
+            document.getElementById("rsvpForm").reset();
+            toggleAttendanceFields(true);
+        }
 
         /* ----------------------------------------------------------
-           B. D-DAY AUTOMATIC COUNTER
+           D-DAY COUNTDOWN TIMER
            ---------------------------------------------------------- */
-        const weddingDate = new Date(2026, 8, 13, 14, 50, 0);
-
-        function updateDday() {
+        function updateDDay() {
+            const weddingDate = new Date("2026-09-13T14:50:00+09:00");
             const now = new Date();
             const diff = weddingDate - now;
 
-            const daysEl = document.getElementById('dday-days');
-            const hoursEl = document.getElementById('dday-hours');
-            const minsEl = document.getElementById('dday-mins');
-            const secsEl = document.getElementById('dday-secs');
-            const badgeEl = document.getElementById('dday-badge-text');
+            const daysEl = document.getElementById("dday-days");
+            const hoursEl = document.getElementById("dday-hours");
+            const minsEl = document.getElementById("dday-mins");
+            const secsEl = document.getElementById("dday-secs");
+            const badgeEl = document.getElementById("dday-badge-text");
 
             if (diff <= 0) {
-                daysEl.innerText = "00";
-                hoursEl.innerText = "00";
-                minsEl.innerText = "00";
-                secsEl.innerText = "00";
-                badgeEl.innerText = "오늘은 박민수 ♥ 강율희의 결혼식입니다!";
+                if (daysEl) daysEl.innerText = "00";
+                if (hoursEl) hoursEl.innerText = "00";
+                if (minsEl) minsEl.innerText = "00";
+                if (secsEl) secsEl.innerText = "00";
+                if (badgeEl) badgeEl.innerText = "오늘이 예식일입니다 🎉";
                 return;
             }
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
             const secs = Math.floor((diff / 1000) % 60);
 
-            daysEl.innerText = String(days).padStart(2, '0');
-            hoursEl.innerText = String(hours).padStart(2, '0');
-            minsEl.innerText = String(mins).padStart(2, '0');
-            secsEl.innerText = String(secs).padStart(2, '0');
-
-            badgeEl.innerText = `결혼식이 ${days}일 남았습니다.`;
+            if (daysEl) daysEl.innerText = String(days).padStart(2, '0');
+            if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
+            if (minsEl) minsEl.innerText = String(mins).padStart(2, '0');
+            if (secsEl) secsEl.innerText = String(secs).padStart(2, '0');
+            if (badgeEl) badgeEl.innerText = `결혼식까지 ${days}일 남았습니다`;
         }
 
-        setInterval(updateDday, 1000);
-        updateDday();
-
+        setInterval(updateDDay, 1000);
+        updateDDay();
 
         /* ----------------------------------------------------------
-           C. SCROLL INTERSECTION OBSERVER
+           INTERSECTION OBSERVER FOR FADE-UP ANIMATIONS
            ---------------------------------------------------------- */
-        document.addEventListener("DOMContentLoaded", () => {
-            const observerOptions = {
-                root: null,
-                rootMargin: "0px",
-                threshold: 0.15
-            };
+        document.addEventListener("DOMContentLoaded", function() {
+            const fadeElements = document.querySelectorAll('.fade-up');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
 
-            const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+                fadeElements.forEach(el => observer.observe(el));
+            } else {
+                fadeElements.forEach(el => el.classList.add('visible'));
+            }
         });
-
-
-        /* ----------------------------------------------------------
-           D. ACCORDION TOGGLE
-           ---------------------------------------------------------- */
-        function toggleAccordion(id) {
-            const item = document.getElementById(id);
-            const isOpen = item.classList.contains("open");
-
-            document.querySelectorAll(".accordion-item").forEach(acc => acc.classList.remove("open"));
-
-            if (!isOpen) {
-                item.classList.add("open");
-            }
-        }
-
-
-        /* ----------------------------------------------------------
-           E. SAFE ACCOUNT COPY TO CLIPBOARD
-           ---------------------------------------------------------- */
-        function copyAccount(text) {
-            try {
-                const textarea = document.createElement("textarea");
-                textarea.value = text;
-                textarea.style.position = "fixed";
-                textarea.style.top = "0";
-                textarea.style.left = "0";
-                textarea.style.opacity = "0";
-                document.body.appendChild(textarea);
-                textarea.focus();
-                textarea.select();
-
-                const successful = document.execCommand('copy');
-                document.body.removeChild(textarea);
-
-                if (successful) {
-                    showToast("계좌번호가 복사되었습니다.");
-                } else {
-                    prompt("아래 계좌번호를 복사해주세요:", text);
-                }
-            } catch (err) {
-                prompt("아래 계좌번호를 복사해주세요:", text);
-            }
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.innerText = message;
-            toast.classList.add("show");
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2500);
-        }
-
-
-        /* ----------------------------------------------------------
-           F. GALLERY LIGHTBOX MODAL & SWIPE HANDLER
-           ---------------------------------------------------------- */
-        const galleryImages = [
-            "images/12.jpg",
-            "images/13.jpg",
-            "images/14.jpg",
-            "images/15.jpg",
-            "images/16.jpg",
-            "images/17.jpg",
-            "images/18.jpg",
-            "images/19.jpg",
-            "images/20.jpg",
-            "images/21.jpg",
-            "images/22.jpg",
-            "images/23.jpg",
-            "images/24.jpg",
-            "images/25.jpg"
-        ];
-
-        let currentImgIndex = 0;
-
-        function openLightbox(index) {
-            currentImgIndex = index;
-            updateLightboxContent();
-            document.getElementById("lightboxModal").classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeLightbox() {
-            document.getElementById("lightboxModal").classList.remove("active");
-            document.body.style.overflow = "";
-        }
-
-        function updateLightboxContent() {
-            document.getElementById("lightboxImg").src = galleryImages[currentImgIndex];
-            document.getElementById("lightboxCounter").innerText = `${currentImgIndex + 1} / ${galleryImages.length}`;
-        }
-
-        function prevLightboxImage() {
-            currentImgIndex = (currentImgIndex - 1 + galleryImages.length) % galleryImages.length;
-            updateLightboxContent();
-        }
-
-        function nextLightboxImage() {
-            currentImgIndex = (currentImgIndex + 1) % galleryImages.length;
-            updateLightboxContent();
-        }
-
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        const lightboxModal = document.getElementById("lightboxModal");
-        lightboxModal.addEventListener("touchstart", (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        lightboxModal.addEventListener("touchend", (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-
-        function handleSwipe() {
-            const swipeThreshold = 40;
-            if (touchEndX < touchStartX - swipeThreshold) {
-                nextLightboxImage();
-            }
-            if (touchEndX > touchStartX + swipeThreshold) {
-                prevLightboxImage();
-            }
-        }
-
-
-        /* ----------------------------------------------------------
-           G. RSVP FORM SUBMISSION
-           ---------------------------------------------------------- */
-        function handleRsvpSubmit(event) {
-            event.preventDefault();
-            const name = document.getElementById("guestName").value;
-            const attendance = document.querySelector('input[name="attendance"]:checked').value;
-
-            showToast(`${name}님, 참석 여부(${attendance})가 전달되었습니다.`);
-            document.getElementById("rsvpForm").reset();
-        }
     </script>
 </body>
 </html>
