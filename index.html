@@ -94,13 +94,13 @@
         }
 
         section {
-            padding: 70px 24px;
+            padding: 50px 24px;
             position: relative;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .section-title .en-sub {
@@ -118,7 +118,7 @@
             width: 30px;
             height: 1px;
             background-color: var(--accent-gold);
-            margin: 18px auto;
+            margin: 14px auto;
             opacity: 0.7;
         }
 
@@ -133,7 +133,6 @@
             transform: translateY(0);
         }
 
-        /* Hero Section */
         .hero-section {
             padding: 0;
             height: 100vh;
@@ -234,7 +233,6 @@
             60% { transform: translateY(-4px); }
         }
 
-        /* Greeting Card */
         .greeting-card {
             text-align: center;
         }
@@ -284,7 +282,6 @@
             font-weight: 500;
         }
 
-        /* Gallery Section : Page Slide (2 Columns x 3 Rows) */
         .gallery-container {
             position: relative;
             width: 100%;
@@ -337,7 +334,6 @@
             transform: scale(0.98);
         }
 
-        /* Pagination Dots */
         .gallery-dots {
             display: flex;
             justify-content: center;
@@ -360,7 +356,6 @@
             background-color: var(--accent-gold);
         }
 
-        /* Location Section */
         .map-box {
             width: 100%;
             background-color: #F5F2ED;
@@ -425,7 +420,6 @@
             background-color: var(--bg-primary);
         }
 
-        /* Account Section */
         .account-tabs {
             display: flex;
             flex-direction: column;
@@ -529,7 +523,6 @@
             color: #FFFFFF;
         }
 
-        /* RSVP Section */
         .rsvp-card {
             background-color: var(--bg-card);
             border-radius: 16px;
@@ -630,7 +623,6 @@
             background-color: #a38350;
         }
 
-        /* D-Day Section */
         .dday-container {
             background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-gold-light) 100%);
             border: 1px solid rgba(184, 151, 98, 0.2);
@@ -688,7 +680,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Lightbox Modal */
         .lightbox-modal {
             position: fixed;
             top: 0;
@@ -872,7 +863,7 @@
                     기쁜 마음으로 자리를 빛내 주시길 바랍니다.
                 </p>
 
-                <!-- 혼주 및 신랑/신부 관계 -->
+                <!-- 혼주 및 신랑/신부 관계 (박민수 ♥ 강율희 순서) -->
                 <div class="couple-relation">
                     <div class="relation-row">
                         <span class="parents">박창남 · 홍윤경</span>
@@ -943,7 +934,7 @@
                 <div class="gold-divider"></div>
             </div>
 
-            <!-- 약도 이미지 (다중 확장자 자동 감지 대응) -->
+            <!-- 약도 이미지 -->
             <div class="map-box" id="mapBoxContainer">
                 <img id="mapImage" src="images/map.png" alt="오시는 길 약도" onerror="handleMapError(this)">
             </div>
@@ -1152,6 +1143,115 @@
 
     <script>
         /* ----------------------------------------------------------
+           ACCOUNT ACCORDION TOGGLE
+           ---------------------------------------------------------- */
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            if (item) {
+                item.classList.toggle('open');
+            }
+        }
+
+        /* ----------------------------------------------------------
+           COPY ACCOUNT NUMBER TO CLIPBOARD
+           ---------------------------------------------------------- */
+        function copyAccount(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("계좌번호가 복사되었습니다.");
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast("계좌번호가 복사되었습니다.");
+                } else {
+                    showToast("복사에 실패했습니다.");
+                }
+            } catch (err) {
+                showToast("복사에 실패했습니다.");
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            if (!toast) return;
+            toast.innerText = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        /* ----------------------------------------------------------
+           OPEN TMAP DEEPLINK
+           ---------------------------------------------------------- */
+        function openTMap(event) {
+            event.preventDefault();
+            const url = "tmap://search?name=" + encodeURIComponent("서울웨딩타워");
+            window.location.href = url;
+        }
+
+        /* ----------------------------------------------------------
+           LIGHTBOX GALLERY MODAL
+           ---------------------------------------------------------- */
+        let currentLightboxIndex = 0;
+        const galleryImages = [
+            'images/12.jpg', 'images/13.jpg', 'images/14.jpg', 'images/15.jpg',
+            'images/16.jpg', 'images/17.jpg', 'images/18.jpg', 'images/19.jpg',
+            'images/20.jpg', 'images/21.jpg', 'images/22.jpg', 'images/23.jpg',
+            'images/24.jpg', 'images/25.jpg'
+        ];
+
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            const modal = document.getElementById('lightboxModal');
+            const img = document.getElementById('lightboxImg');
+            const counter = document.getElementById('lightboxCounter');
+            
+            if (modal && img && counter) {
+                img.src = galleryImages[index];
+                counter.innerText = `${index + 1} / ${galleryImages.length}`;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightboxModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function prevLightboxImage() {
+            currentLightboxIndex = (currentLightboxIndex - 1 + galleryImages.length) % galleryImages.length;
+            openLightbox(currentLightboxIndex);
+        }
+
+        function nextLightboxImage() {
+            currentLightboxIndex = (currentLightboxIndex + 1) % galleryImages.length;
+            openLightbox(currentLightboxIndex);
+        }
+
+        /* ----------------------------------------------------------
            RSVP FORM SUBMISSION & TOGGLE
            ---------------------------------------------------------- */
         function toggleAttendanceFields(isAttending) {
@@ -1183,24 +1283,6 @@
             const attendance = document.querySelector('input[name="attendance"]:checked').value;
             const guestCount = document.getElementById("guestCount").value;
             const meal = document.querySelector('input[name="meal"]:checked').value;
-
-            // Google Sheets 스프레드시트 제출용 데이터 객체 (식사 예정 값 포함)
-            const formData = {
-                side: side,
-                name: name,
-                attendance: attendance,
-                guestCount: guestCount,
-                meal: meal
-            };
-
-            /* Google Sheets Apps Script URL 연결 시 주석을 풀고 URL을 입력하시면 데이터가 구글 시트로 자동 전송됩니다.
-            fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            });
-            */
 
             showToast(`${name}님, 참석 정보가 전달되었습니다.`);
             document.getElementById("rsvpForm").reset();
@@ -1246,9 +1328,10 @@
         updateDDay();
 
         /* ----------------------------------------------------------
-           INTERSECTION OBSERVER FOR FADE-UP ANIMATIONS
+           INITIALIZATION & OBSERVERS
            ---------------------------------------------------------- */
         document.addEventListener("DOMContentLoaded", function() {
+            // Fade-up scroll observer
             const fadeElements = document.querySelectorAll('.fade-up');
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver((entries) => {
@@ -1262,6 +1345,23 @@
                 fadeElements.forEach(el => observer.observe(el));
             } else {
                 fadeElements.forEach(el => el.classList.add('visible'));
+            }
+
+            // Gallery slider dot indicator sync
+            const slider = document.getElementById('gallerySlider');
+            const dots = document.querySelectorAll('#galleryDots .dot');
+
+            if (slider && dots.length > 0) {
+                slider.addEventListener('scroll', () => {
+                    const pageIndex = Math.round(slider.scrollLeft / slider.clientWidth);
+                    dots.forEach((dot, idx) => {
+                        if (idx === pageIndex) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                });
             }
         });
     </script>
