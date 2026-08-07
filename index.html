@@ -1645,18 +1645,70 @@
 
         function handleRsvpSubmit(event) {
             event.preventDefault();
+            
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.innerText : '참석 정보 전달하기';
+
             const nameInput = document.getElementById("guestName");
             const name = nameInput ? nameInput.value.trim() : '';
 
-            // 1. Submit success toast message
-            showToast(`${name ? name + '님, ' : ''}참석 의사가 전달되었습니다.`);
+            if (!name) {
+                showToast('성함을 입력해주세요.');
+                return;
+            }
 
-            // 2. Reset form
-            document.getElementById("rsvpForm").reset();
-            toggleAttendanceFields(true);
+            // 폼 입력 값 추출
+            const sideEl = document.querySelector('input[name="side"]:checked');
+            const side = sideEl ? (sideEl.value === 'groom' ? '신랑측' : '신부측') : '신랑측';
 
-            // 3. Close popup cleanly without changing page scroll position
-            closeRsvpPopup();
+            const attendanceEl = document.querySelector('input[name="attendance"]:checked');
+            const attendance = attendanceEl ? attendanceEl.value : '참석';
+
+            const guestCountEl = document.getElementById("guestCount");
+            const guestCount = guestCountEl ? guestCountEl.value : '1명';
+
+            const mealEl = document.querySelector('input[name="meal"]:checked');
+            const meal = attendance === '불참' ? '미예정' : (mealEl ? mealEl.value : '예정');
+
+            // 전송 중 버튼 비활성화 처리
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = '전달 중...';
+            }
+
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxT9yYJ1fKclZ6Lo8d_hGrC6iIo0vjAbwxs-_5s6G5_oBlI1Nqxx328RN8Rg0LskXXu/exec';
+
+            // Google Apps Script 전송 파라미터 생성
+            const params = new URLSearchParams();
+            params.append('side', side);
+            params.append('name', name);
+            params.append('attendance', attendance);
+            params.append('guestCount', guestCount);
+            params.append('meal', meal);
+            params.append('timestamp', new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }));
+
+            // 모바일 인앱 브라우저(카카오톡, 사파리, 크롬) 대응 no-cors 비동기 전송
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: params.toString()
+            }).then(() => {
+                showToast(`${name ? name + '님, ' : ''}참석 의사가 전달되었습니다.`);
+                document.getElementById("rsvpForm").reset();
+                toggleAttendanceFields(true);
+                closeRsvpPopup();
+            }).catch(err => {
+                console.error('RSVP submit error:', err);
+                showToast('전송 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }).finally(() => {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalBtnText;
+                }
+            });
         }
 
         function updateDDay() {
