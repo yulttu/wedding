@@ -5,19 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>박민수 ♥ 강율희 모바일 청첩장</title>
     
-    <!-- SEO 및 소셜 공유 메타태그 (카카오톡 Open Graph & Twitter) -->
+    <!-- SEO 및 소셜 공유 메타태그 (카카오톡 Open Graph) -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="박민수 ♥ 강율희 결혼합니다">
     <meta property="og:description" content="2026년 9월 13일 일요일 오후 2시 50분 | 서울웨딩타워">
     <meta property="og:image" content="images/og-image.jpg">
-    <meta property="og:image:width" content="800">
-    <meta property="og:image:height" content="400">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="박민수 ♥ 강율희 결혼합니다">
-    <meta name="twitter:description" content="2026년 9월 13일 일요일 오후 2시 50분 | 서울웨딩타워">
-    <meta name="twitter:image" content="images/og-image.jpg">
+    <meta property="og:url" content="">
 
     <!-- 웹폰트 : Alex Brush + Great Vibes + Nanum Pen Script(한글 감성 캘리그라피) + Cormorant Garamond + Noto Serif KR + Noto Sans KR -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1272,8 +1265,8 @@
     </div>
 
     <div class="rsvp-popup-overlay" id="rsvpPopupOverlay" onclick="handleRsvpOverlayClick(event)">
-        <div class="rsvp-popup-card" id="rsvpPopupCard">
-            <button class="rsvp-popup-close-btn" onclick="closeRsvpPopup()" aria-label="닫기">&times;</button>
+        <div class="rsvp-popup-card" id="rsvpPopupCard" onclick="event.stopPropagation()">
+            <button class="rsvp-popup-close-btn" onclick="closeRsvpPopup(event)" ontouchend="closeRsvpPopup(event)" aria-label="닫기">&times;</button>
             
             <!-- STEP 1: RSVP 안내 팝업 -->
             <div id="rsvpStep1" style="display: block;">
@@ -1404,6 +1397,8 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
+        let rsvpJustClosedTime = 0;
+
         function openRsvpStep(step) {
             const overlay = document.getElementById('rsvpPopupOverlay');
             const step1 = document.getElementById('rsvpStep1');
@@ -1422,7 +1417,12 @@
             }
         }
 
-        function closeRsvpPopup() {
+        function closeRsvpPopup(event) {
+            if (event) {
+                if (typeof event.stopPropagation === 'function') event.stopPropagation();
+                if (typeof event.preventDefault === 'function') event.preventDefault();
+            }
+            rsvpJustClosedTime = Date.now();
             const overlay = document.getElementById('rsvpPopupOverlay');
             if (overlay) {
                 overlay.classList.remove('active');
@@ -1431,7 +1431,8 @@
 
         function handleRsvpOverlayClick(event) {
             if (event.target === document.getElementById('rsvpPopupOverlay')) {
-                closeRsvpPopup();
+                if (typeof event.stopPropagation === 'function') event.stopPropagation();
+                closeRsvpPopup(event);
             }
         }
 
@@ -1471,6 +1472,11 @@
         ];
 
         function openLightbox(index) {
+            // RSVP 팝업이 켜져 있거나 닫힌 직후(400ms 이내) 고스트 클릭으로 인한 갤러리 팝업 방지
+            const rsvpOverlay = document.getElementById('rsvpPopupOverlay');
+            if (rsvpOverlay && rsvpOverlay.classList.contains('active')) return;
+            if (Date.now() - rsvpJustClosedTime < 400) return;
+
             currentLightboxIndex = index;
             const modal = document.getElementById('lightboxModal');
             const img = document.getElementById('lightboxImg');
@@ -1526,6 +1532,10 @@
                         const duration = Date.now() - startTime;
 
                         if (distX < 12 && distY < 12 && duration < 300) {
+                            const rsvpOverlay = document.getElementById('rsvpPopupOverlay');
+                            if (rsvpOverlay && rsvpOverlay.classList.contains('active')) return;
+                            if (Date.now() - rsvpJustClosedTime < 400) return;
+
                             if (e.cancelable) e.preventDefault();
                             openLightbox(index);
                         }
