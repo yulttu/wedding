@@ -684,10 +684,12 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.94);
-            z-index: 9999;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 99999;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -696,11 +698,7 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
             touch-action: none;
-        }
-
-        .lightbox-modal.active {
-            opacity: 1;
-            pointer-events: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .lightbox-header {
@@ -1143,73 +1141,7 @@
 
     <script>
         /* ----------------------------------------------------------
-           ACCOUNT ACCORDION TOGGLE
-           ---------------------------------------------------------- */
-        function toggleAccordion(id) {
-            const item = document.getElementById(id);
-            if (item) {
-                item.classList.toggle('open');
-            }
-        }
-
-        /* ----------------------------------------------------------
-           COPY ACCOUNT NUMBER TO CLIPBOARD
-           ---------------------------------------------------------- */
-        function copyAccount(text) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast("계좌번호가 복사되었습니다.");
-                }).catch(() => {
-                    fallbackCopyTextToClipboard(text);
-                });
-            } else {
-                fallbackCopyTextToClipboard(text);
-            }
-        }
-
-        function fallbackCopyTextToClipboard(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showToast("계좌번호가 복사되었습니다.");
-                } else {
-                    showToast("복사에 실패했습니다.");
-                }
-            } catch (err) {
-                showToast("복사에 실패했습니다.");
-            }
-            document.body.removeChild(textArea);
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            if (!toast) return;
-            toast.innerText = message;
-            toast.classList.add("show");
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2500);
-        }
-
-        /* ----------------------------------------------------------
-           OPEN TMAP DEEPLINK
-           ---------------------------------------------------------- */
-        function openTMap(event) {
-            event.preventDefault();
-            const url = "tmap://search?name=" + encodeURIComponent("서울웨딩타워");
-            window.location.href = url;
-        }
-
-        /* ----------------------------------------------------------
-           LIGHTBOX GALLERY MODAL
+           LIGHTBOX GALLERY MODAL & KAKAOTALK IN-APP BROWSER TOUCH FIX
            ---------------------------------------------------------- */
         let currentLightboxIndex = 0;
         const galleryImages = [
@@ -1249,6 +1181,79 @@
         function nextLightboxImage() {
             currentLightboxIndex = (currentLightboxIndex + 1) % galleryImages.length;
             openLightbox(currentLightboxIndex);
+        }
+
+        /* 아이폰/안드로이드 카카오톡 인앱 브라우저 터치/클릭 연동 및 스와이프 처리 */
+        function initGalleryTouchEvents() {
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach((item, index) => {
+                let startX = 0, startY = 0, startTime = 0, isTouch = false;
+
+                item.addEventListener('touchstart', function(e) {
+                    isTouch = true;
+                    if (e.touches && e.touches.length > 0) {
+                        startX = e.touches[0].clientX;
+                        startY = e.touches[0].clientY;
+                        startTime = Date.now();
+                    }
+                }, { passive: true });
+
+                item.addEventListener('touchend', function(e) {
+                    if (!isTouch) return;
+                    if (e.changedTouches && e.changedTouches.length > 0) {
+                        const endX = e.changedTouches[0].clientX;
+                        const endY = e.changedTouches[0].clientY;
+                        const distX = Math.abs(endX - startX);
+                        const distY = Math.abs(endY - startY);
+                        const duration = Date.now() - startTime;
+
+                        // 터치 이동 거리가 12px 이내이고 300ms 이내인 경우 탭(클릭)으로 판별
+                        if (distX < 12 && distY < 12 && duration < 300) {
+                            if (e.cancelable) e.preventDefault();
+                            openLightbox(index);
+                        }
+                    }
+                });
+
+                item.addEventListener('click', function(e) {
+                    if (!isTouch) {
+                        openLightbox(index);
+                    }
+                    setTimeout(() => { isTouch = false; }, 300);
+                });
+            });
+
+            // 모달창 내부 좌우 스와이프 제스처 처리
+            const lightboxModal = document.getElementById('lightboxModal');
+            if (lightboxModal) {
+                let modalStartX = 0;
+                let modalStartY = 0;
+
+                lightboxModal.addEventListener('touchstart', function(e) {
+                    if (e.touches && e.touches.length > 0) {
+                        modalStartX = e.touches[0].clientX;
+                        modalStartY = e.touches[0].clientY;
+                    }
+                }, { passive: true });
+
+                lightboxModal.addEventListener('touchend', function(e) {
+                    if (e.changedTouches && e.changedTouches.length > 0) {
+                        const modalEndX = e.changedTouches[0].clientX;
+                        const modalEndY = e.changedTouches[0].clientY;
+                        const diffX = modalEndX - modalStartX;
+                        const diffY = Math.abs(modalEndY - modalStartY);
+
+                        // 가로 스와이프 40px 이상, 세로 이동 60px 이하 시 이미지 변경
+                        if (Math.abs(diffX) > 40 && diffY < 60) {
+                            if (diffX < 0) {
+                                nextLightboxImage();
+                            } else {
+                                prevLightboxImage();
+                            }
+                        }
+                    }
+                }, { passive: true });
+            }
         }
 
         /* ----------------------------------------------------------
@@ -1331,6 +1336,9 @@
            INITIALIZATION & OBSERVERS
            ---------------------------------------------------------- */
         document.addEventListener("DOMContentLoaded", function() {
+            // 카카오톡 인앱 브라우저 대응 갤러리 터치 이벤트 초기화
+            initGalleryTouchEvents();
+
             // Fade-up scroll observer
             const fadeElements = document.querySelectorAll('.fade-up');
             if ('IntersectionObserver' in window) {
