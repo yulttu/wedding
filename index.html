@@ -701,6 +701,11 @@
             -webkit-overflow-scrolling: touch;
         }
 
+        .lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         .lightbox-header {
             position: absolute;
             top: 0;
@@ -836,7 +841,7 @@
 
             <div class="hero-bottom-text fade-up">
                 <div class="hero-names">
-                    강율희<span>♥</span>박민수
+                    박민수<span>♥</span>강율희
                 </div>
                 <p class="hero-date">2026 . 09 . 13 . SUN . PM 2:50</p>
                 <div class="scroll-down-indicator">
@@ -877,7 +882,7 @@
             </div>
         </section>
 
-        <!-- ② GALLERY (페이지 단위 스와이프: 페이지당 6장) -->
+        <!-- ② GALLERY (페이지 단위 스와이프: 페이지당 4장, 2열 x 2행) -->
         <section class="gallery-section fade-up">
             <div class="section-title">
                 <span class="en-sub">GALLERY</span>
@@ -885,30 +890,34 @@
             </div>
 
             <div class="gallery-container">
-                <!-- 페이지 단위 가로 슬라이더 -->
+                <!-- 페이지 단위 가로 슬라이더 (페이지 당 4장) -->
                 <div class="gallery-paged-slider" id="gallerySlider">
                     
-                    <!-- 1페이지 (썸네일 1 ~ 6) -->
+                    <!-- 1페이지 (썸네일 1 ~ 4) -->
                     <div class="gallery-page">
                         <div class="gallery-item" onclick="openLightbox(0)"><img src="images/12.jpg" alt="갤러리 사진 1" loading="lazy" onerror="handleGalleryImgError(this, 'images/12.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(1)"><img src="images/13.jpg" alt="갤러리 사진 2" loading="lazy" onerror="handleGalleryImgError(this, 'images/13.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(2)"><img src="images/14.jpg" alt="갤러리 사진 3" loading="lazy" onerror="handleGalleryImgError(this, 'images/14.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(3)"><img src="images/15.jpg" alt="갤러리 사진 4" loading="lazy" onerror="handleGalleryImgError(this, 'images/15.jpg')"></div>
-                        <div class="gallery-item" onclick="openLightbox(4)"><img src="images/16.jpg" alt="갤러리 사진 5" loading="lazy" onerror="handleGalleryImgError(this, 'images/16.jpg')"></div>
-                        <div class="gallery-item" onclick="openLightbox(5)"><img src="images/17.jpg" alt="갤러리 사진 6" loading="lazy" onerror="handleGalleryImgError(this, 'images/17.jpg')"></div>
                     </div>
 
-                    <!-- 2페이지 (썸네일 7 ~ 12) -->
+                    <!-- 2페이지 (썸네일 5 ~ 8) -->
                     <div class="gallery-page">
+                        <div class="gallery-item" onclick="openLightbox(4)"><img src="images/16.jpg" alt="갤러리 사진 5" loading="lazy" onerror="handleGalleryImgError(this, 'images/16.jpg')"></div>
+                        <div class="gallery-item" onclick="openLightbox(5)"><img src="images/17.jpg" alt="갤러리 사진 6" loading="lazy" onerror="handleGalleryImgError(this, 'images/17.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(6)"><img src="images/18.jpg" alt="갤러리 사진 7" loading="lazy" onerror="handleGalleryImgError(this, 'images/18.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(7)"><img src="images/19.jpg" alt="갤러리 사진 8" loading="lazy" onerror="handleGalleryImgError(this, 'images/19.jpg')"></div>
+                    </div>
+
+                    <!-- 3페이지 (썸네일 9 ~ 12) -->
+                    <div class="gallery-page">
                         <div class="gallery-item" onclick="openLightbox(8)"><img src="images/20.jpg" alt="갤러리 사진 9" loading="lazy" onerror="handleGalleryImgError(this, 'images/20.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(9)"><img src="images/21.jpg" alt="갤러리 사진 10" loading="lazy" onerror="handleGalleryImgError(this, 'images/21.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(10)"><img src="images/22.jpg" alt="갤러리 사진 11" loading="lazy" onerror="handleGalleryImgError(this, 'images/22.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(11)"><img src="images/23.jpg" alt="갤러리 사진 12" loading="lazy" onerror="handleGalleryImgError(this, 'images/23.jpg')"></div>
                     </div>
 
-                    <!-- 3페이지 (썸네일 13 ~ 14) -->
+                    <!-- 4페이지 (썸네일 13 ~ 14) -->
                     <div class="gallery-page">
                         <div class="gallery-item" onclick="openLightbox(12)"><img src="images/24.jpg" alt="갤러리 사진 13" loading="lazy" onerror="handleGalleryImgError(this, 'images/24.jpg')"></div>
                         <div class="gallery-item" onclick="openLightbox(13)"><img src="images/25.jpg" alt="갤러리 사진 14" loading="lazy" onerror="handleGalleryImgError(this, 'images/25.jpg')"></div>
@@ -916,9 +925,10 @@
 
                 </div>
 
-                <!-- 페이지 표시 인디케이터 도트 -->
+                <!-- 페이지 표시 인디케이터 도트 (총 4개) -->
                 <div class="gallery-dots" id="galleryDots">
                     <span class="dot active"></span>
+                    <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
                 </div>
@@ -1254,6 +1264,68 @@
                     }
                 }, { passive: true });
             }
+        }
+
+        /* ----------------------------------------------------------
+           ACCORDION & COPY & UTILS
+           ---------------------------------------------------------- */
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            if (item) {
+                item.classList.toggle('open');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.innerText = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2800);
+            }
+        }
+
+        function copyAccount(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('계좌번호가 복사되었습니다.');
+                }).catch(() => {
+                    fallbackCopyText(text);
+                });
+            } else {
+                fallbackCopyText(text);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('계좌번호가 복사되었습니다.');
+            } catch (err) {
+                showToast('복사에 실패했습니다.');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function openTMap(event) {
+            event.preventDefault();
+            const tmapUrl = "tmap://search?name=서울웨딩타워";
+            const now = Date.now();
+            window.location.href = tmapUrl;
+            setTimeout(() => {
+                if (Date.now() - now < 2000) {
+                    window.location.href = "https://m.tmap.co.kr";
+                }
+            }, 1500);
         }
 
         /* ----------------------------------------------------------
