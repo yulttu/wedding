@@ -133,6 +133,7 @@
             transform: translateY(0);
         }
 
+        /* HERO SECTION */
         .hero-section {
             padding: 0;
             height: 100vh;
@@ -233,6 +234,7 @@
             60% { transform: translateY(-4px); }
         }
 
+        /* GREETING */
         .greeting-card {
             text-align: center;
         }
@@ -282,6 +284,7 @@
             font-weight: 500;
         }
 
+        /* GALLERY */
         .gallery-container {
             position: relative;
             width: 100%;
@@ -356,6 +359,7 @@
             background-color: var(--accent-gold);
         }
 
+        /* LOCATION */
         .map-box {
             width: 100%;
             background-color: #F5F2ED;
@@ -420,6 +424,7 @@
             background-color: var(--bg-primary);
         }
 
+        /* ACCOUNT */
         .account-tabs {
             display: flex;
             flex-direction: column;
@@ -523,29 +528,60 @@
             color: #FFFFFF;
         }
 
-        .rsvp-card {
+        /* RSVP SECTION (MAIN BODY CARD) */
+        .rsvp-main-card {
             background-color: var(--bg-card);
             border-radius: 16px;
-            padding: 22px 20px;
+            padding: 28px 20px;
             box-shadow: var(--shadow-soft);
             border: 1px solid var(--border-line);
+            text-align: center;
         }
 
+        .rsvp-main-desc {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .btn-open-rsvp-modal {
+            width: 100%;
+            padding: 14px 0;
+            background-color: var(--accent-gold);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-family: var(--font-serif);
+            font-size: 0.98rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(184, 151, 98, 0.35);
+            transition: background 0.2s;
+        }
+
+        .btn-open-rsvp-modal:active {
+            background-color: #a38350;
+        }
+
+        /* RSVP FORM STYLES FOR POPUP STEP 2 */
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            text-align: left;
         }
 
         .form-label {
             display: block;
             font-size: 0.85rem;
             font-weight: 500;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             color: var(--text-main);
         }
 
         .form-input, .form-select {
             width: 100%;
-            padding: 10px 14px;
+            padding: 11px 14px;
             border: 1px solid var(--border-line);
             border-radius: 8px;
             background-color: var(--bg-primary);
@@ -554,10 +590,27 @@
             color: var(--text-main);
             outline: none;
             transition: border-color 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .form-input:focus, .form-select:focus {
             border-color: var(--accent-gold);
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 0.65rem;
+            color: var(--text-sub);
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
         }
 
         .radio-group {
@@ -580,11 +633,11 @@
         .radio-btn label {
             display: block;
             text-align: center;
-            padding: 9px 0;
+            padding: 10px 0;
             border: 1px solid var(--border-line);
             border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.92rem;
+            font-weight: 500;
             color: var(--text-sub);
             cursor: pointer;
             background-color: var(--bg-primary);
@@ -603,26 +656,7 @@
             cursor: not-allowed;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 13px 0;
-            background-color: var(--accent-gold);
-            color: #FFFFFF;
-            border: none;
-            border-radius: 8px;
-            font-family: var(--font-serif);
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(184, 151, 98, 0.3);
-            margin-top: 6px;
-            transition: background 0.2s;
-        }
-
-        .btn-submit:active {
-            background-color: #a38350;
-        }
-
+        /* D-DAY */
         .dday-container {
             background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-gold-light) 100%);
             border: 1px solid rgba(184, 151, 98, 0.2);
@@ -680,6 +714,165 @@
             letter-spacing: 0.5px;
         }
 
+        /* ----------------------------------------------------------
+           2-STEP RSVP BOTTOM SHEET POPUP STYLES
+           ---------------------------------------------------------- */
+        .rsvp-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            z-index: 9998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+
+        .rsvp-popup-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .rsvp-popup-card {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            width: 100%;
+            max-width: 450px;
+            max-height: 85vh;
+            background-color: var(--bg-card);
+            border-radius: 20px 20px 0 0;
+            padding: 26px 22px 28px 22px;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .rsvp-popup-overlay.active .rsvp-popup-card {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .rsvp-popup-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            color: var(--text-sub);
+            cursor: pointer;
+            line-height: 1;
+            padding: 6px;
+            z-index: 10;
+        }
+
+        .rsvp-popup-title {
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+
+        .rsvp-popup-desc {
+            text-align: center;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: var(--text-sub);
+            margin: 14px 0 18px 0;
+            font-weight: 300;
+        }
+
+        .rsvp-popup-info {
+            background-color: var(--accent-gold-light);
+            border: 1px solid rgba(184, 151, 98, 0.25);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .rsvp-popup-info .date-main {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin-bottom: 6px;
+            letter-spacing: 0.2px;
+        }
+
+        .rsvp-popup-info .venue-name {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .rsvp-popup-info .venue-addr {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+            font-weight: 400;
+        }
+
+        .btn-rsvp-action {
+            width: 100%;
+            padding: 14px 0;
+            background-color: var(--accent-gold);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-family: var(--font-serif);
+            font-size: 0.98rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(184, 151, 98, 0.35);
+            transition: background 0.2s;
+        }
+
+        .btn-rsvp-action:active {
+            background-color: #a38350;
+        }
+
+        /* 오늘 하루 보지 않기 옵션 */
+        .rsvp-hide-today-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 14px;
+            cursor: pointer;
+        }
+
+        .rsvp-hide-today-btn {
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-family: var(--font-sans);
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .rsvp-hide-today-btn:active {
+            opacity: 1;
+            color: var(--accent-gold);
+        }
+
+        /* LIGHTBOX MODAL */
         .lightbox-modal {
             position: fixed;
             top: 0;
@@ -808,16 +1001,18 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background-color: rgba(44, 44, 42, 0.92);
+            background-color: rgba(44, 44, 42, 0.94);
             color: #FFFFFF;
             padding: 12px 24px;
             border-radius: 30px;
             font-size: 0.88rem;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
             z-index: 10000;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .toast.show {
@@ -866,7 +1061,7 @@
                     기쁜 마음으로 자리를 빛내 주시길 바랍니다.
                 </p>
 
-                <!-- 혼주 및 신랑/신부 관계 (박민수 ♥ 강율희 순서) -->
+                <!-- 혼주 및 신랑/신부 관계 -->
                 <div class="couple-relation">
                     <div class="relation-row">
                         <span class="parents">박창남 · 홍윤경</span>
@@ -890,7 +1085,6 @@
             </div>
 
             <div class="gallery-container">
-                <!-- 페이지 단위 가로 슬라이더 (페이지 당 4장) -->
                 <div class="gallery-paged-slider" id="gallerySlider">
                     
                     <!-- 1페이지 (썸네일 1 ~ 4) -->
@@ -925,7 +1119,6 @@
 
                 </div>
 
-                <!-- 페이지 표시 인디케이터 도트 (총 4개) -->
                 <div class="gallery-dots" id="galleryDots">
                     <span class="dot active"></span>
                     <span class="dot"></span>
@@ -942,12 +1135,10 @@
                 <div class="gold-divider"></div>
             </div>
 
-            <!-- 약도 이미지 -->
             <div class="map-box" id="mapBoxContainer">
                 <img id="mapImage" src="images/map.png" alt="오시는 길 약도" onerror="handleMapError(this)">
             </div>
 
-            <!-- 내비게이션 안내 문구 -->
             <div class="nav-notice-box">
                 💡 <strong>'서울웨딩타워'</strong>로 검색하셔야 동문주차장으로 안내받으실 수 있습니다.
             </div>
@@ -1021,75 +1212,19 @@
             </div>
         </section>
 
-        <!-- ⑤ RSVP -->
-        <section class="rsvp-section fade-up">
+        <!-- ⑤ RSVP (본인 카드에서 팝업을 직접 호출) -->
+        <section class="rsvp-section fade-up" id="rsvpSection">
             <div class="section-title">
                 <span class="en-sub">R.S.V.P</span>
                 <div class="gold-divider"></div>
             </div>
 
-            <div class="rsvp-card">
-                <form id="rsvpForm" onsubmit="handleRsvpSubmit(event)">
-                    <div class="form-group">
-                        <label class="form-label">구분</label>
-                        <div class="radio-group">
-                            <div class="radio-btn">
-                                <input type="radio" id="side-groom" name="side" value="groom" checked>
-                                <label for="side-groom">신랑측</label>
-                            </div>
-                            <div class="radio-btn">
-                                <input type="radio" id="side-bride" name="side" value="bride">
-                                <label for="side-bride">신부측</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="guestName" class="form-label">성함</label>
-                        <input type="text" id="guestName" class="form-input" placeholder="성함을 입력해주세요" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">참석 여부</label>
-                        <div class="radio-group">
-                            <div class="radio-btn">
-                                <input type="radio" id="attend-yes" name="attendance" value="참석" checked onchange="toggleAttendanceFields(true)">
-                                <label for="attend-yes">O</label>
-                            </div>
-                            <div class="radio-btn">
-                                <input type="radio" id="attend-no" name="attendance" value="불참" onchange="toggleAttendanceFields(false)">
-                                <label for="attend-no">X</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="guestCount" class="form-label">동행 인원 (본인 포함)</label>
-                        <select id="guestCount" class="form-select">
-                            <option value="0명">0명</option>
-                            <option value="1명" selected>1명</option>
-                            <option value="2명">2명</option>
-                            <option value="3명">3명</option>
-                            <option value="4명 이상">4명 이상</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">식사 예정</label>
-                        <div class="radio-group">
-                            <div class="radio-btn">
-                                <input type="radio" id="meal-yes" name="meal" value="예정" checked>
-                                <label for="meal-yes">O</label>
-                            </div>
-                            <div class="radio-btn">
-                                <input type="radio" id="meal-no" name="meal" value="미예정">
-                                <label for="meal-no">X</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-submit">참석 정보 전달하기</button>
-                </form>
+            <div class="rsvp-main-card">
+                <p class="rsvp-main-desc">
+                    축복의 자리에 함께해 주실 하객 여러분의<br>
+                    소중한 참석 여부를 미리 전달받고자 합니다.
+                </p>
+                <button class="btn-open-rsvp-modal" onclick="openRsvpStep(2)">참석 의사 전달하기</button>
             </div>
         </section>
 
@@ -1127,6 +1262,108 @@
 
     </div>
 
+    <div class="rsvp-popup-overlay" id="rsvpPopupOverlay" onclick="handleRsvpOverlayClick(event)">
+        <div class="rsvp-popup-card" id="rsvpPopupCard">
+            <button class="rsvp-popup-close-btn" onclick="closeRsvpPopup()" aria-label="닫기">&times;</button>
+            
+            <!-- STEP 1: RSVP 안내 팝업 -->
+            <div id="rsvpStep1" style="display: block;">
+                <div class="rsvp-popup-title">참석 의사 전달</div>
+                <div class="gold-divider" style="margin: 10px auto 16px auto;"></div>
+                <p class="rsvp-popup-desc">
+                    원활한 예식 진행을 위해 참석 정보를<br>미리 알려주시면 감사하겠습니다.
+                </p>
+                
+                <div class="rsvp-popup-info">
+                    <div class="date-main">2026년 9월 13일 일요일 오후 2:50</div>
+                    <div class="venue-name">서울웨딩타워</div>
+                    <div class="venue-addr">서울 송파구 양재대로 932</div>
+                </div>
+
+                <button class="btn-rsvp-action" onclick="openRsvpStep(2)">참석 의사 전달하기</button>
+                
+                <div class="rsvp-hide-today-container">
+                    <button class="rsvp-hide-today-btn" onclick="setHideRsvpToday()">오늘 하루 보지 않기</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: RSVP 입력 팝업 -->
+            <div id="rsvpStep2" style="display: none;">
+                <div class="rsvp-popup-title">참석 의사 전달</div>
+                <div class="gold-divider" style="margin: 10px auto 18px auto;"></div>
+
+                <form id="rsvpForm" onsubmit="handleRsvpSubmit(event)">
+                    <!-- ① 구분 -->
+                    <div class="form-group">
+                        <label class="form-label">구분</label>
+                        <div class="radio-group">
+                            <div class="radio-btn">
+                                <input type="radio" id="side-groom" name="side" value="groom" checked>
+                                <label for="side-groom">신랑측</label>
+                            </div>
+                            <div class="radio-btn">
+                                <input type="radio" id="side-bride" name="side" value="bride">
+                                <label for="side-bride">신부측</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ② 성함 -->
+                    <div class="form-group">
+                        <label for="guestName" class="form-label">성함</label>
+                        <input type="text" id="guestName" class="form-input" placeholder="성함을 입력해주세요" required>
+                    </div>
+
+                    <!-- ③ 참석 여부 -->
+                    <div class="form-group">
+                        <label class="form-label">참석 여부</label>
+                        <div class="radio-group">
+                            <div class="radio-btn">
+                                <input type="radio" id="attend-yes" name="attendance" value="참석" checked onchange="toggleAttendanceFields(true)">
+                                <label for="attend-yes">O</label>
+                            </div>
+                            <div class="radio-btn">
+                                <input type="radio" id="attend-no" name="attendance" value="불참" onchange="toggleAttendanceFields(false)">
+                                <label for="attend-no">X</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ④ 동행 인원 (본인 포함) -->
+                    <div class="form-group">
+                        <label for="guestCount" class="form-label">동행 인원 (본인 포함)</label>
+                        <div class="select-wrapper">
+                            <select id="guestCount" class="form-select">
+                                <option value="0명">0명</option>
+                                <option value="1명" selected>1명</option>
+                                <option value="2명">2명</option>
+                                <option value="3명">3명</option>
+                                <option value="4명 이상">4명 이상</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- ⑤ 식사 예정 -->
+                    <div class="form-group">
+                        <label class="form-label">식사 예정</label>
+                        <div class="radio-group">
+                            <div class="radio-btn">
+                                <input type="radio" id="meal-yes" name="meal" value="예정" checked>
+                                <label for="meal-yes">O</label>
+                            </div>
+                            <div class="radio-btn">
+                                <input type="radio" id="meal-no" name="meal" value="미예정">
+                                <label for="meal-no">X</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-rsvp-action" style="margin-top: 8px;">참석 정보 전달하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- LIGHTBOX GALLERY MODAL -->
     <div class="lightbox-modal" id="lightboxModal">
         <div class="lightbox-header">
@@ -1150,9 +1387,72 @@
     <div class="toast" id="toast">계좌번호가 복사되었습니다.</div>
 
     <script>
-        /* ----------------------------------------------------------
-           LIGHTBOX GALLERY MODAL & KAKAOTALK IN-APP BROWSER TOUCH FIX
-           ---------------------------------------------------------- */
+        function getTodayDateString() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function openRsvpStep(step) {
+            const overlay = document.getElementById('rsvpPopupOverlay');
+            const step1 = document.getElementById('rsvpStep1');
+            const step2 = document.getElementById('rsvpStep2');
+
+            if (step === 1) {
+                if (step1) step1.style.display = 'block';
+                if (step2) step2.style.display = 'none';
+            } else if (step === 2) {
+                if (step1) step1.style.display = 'none';
+                if (step2) step2.style.display = 'block';
+            }
+
+            if (overlay) {
+                overlay.classList.add('active');
+            }
+        }
+
+        function closeRsvpPopup() {
+            const overlay = document.getElementById('rsvpPopupOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+        }
+
+        function handleRsvpOverlayClick(event) {
+            if (event.target === document.getElementById('rsvpPopupOverlay')) {
+                closeRsvpPopup();
+            }
+        }
+
+        function setHideRsvpToday() {
+            try {
+                const todayStr = getTodayDateString();
+                localStorage.setItem('hideRsvpNoticeDate', todayStr);
+            } catch (e) {
+                console.warn('localStorage error:', e);
+            }
+            closeRsvpPopup();
+            showToast('오늘 하루 동안 팝업을 보지 않습니다.');
+        }
+
+        function checkAutoOpenRsvp() {
+            try {
+                const savedDate = localStorage.getItem('hideRsvpNoticeDate');
+                const todayStr = getTodayDateString();
+                if (savedDate !== todayStr) {
+                    setTimeout(() => {
+                        openRsvpStep(1);
+                    }, 400);
+                }
+            } catch (e) {
+                setTimeout(() => {
+                    openRsvpStep(1);
+                }, 400);
+            }
+        }
+
         let currentLightboxIndex = 0;
         const galleryImages = [
             'images/12.jpg', 'images/13.jpg', 'images/14.jpg', 'images/15.jpg',
@@ -1193,7 +1493,6 @@
             openLightbox(currentLightboxIndex);
         }
 
-        /* 아이폰/안드로이드 카카오톡 인앱 브라우저 터치/클릭 연동 및 스와이프 처리 */
         function initGalleryTouchEvents() {
             const items = document.querySelectorAll('.gallery-item');
             items.forEach((item, index) => {
@@ -1217,7 +1516,6 @@
                         const distY = Math.abs(endY - startY);
                         const duration = Date.now() - startTime;
 
-                        // 터치 이동 거리가 12px 이내이고 300ms 이내인 경우 탭(클릭)으로 판별
                         if (distX < 12 && distY < 12 && duration < 300) {
                             if (e.cancelable) e.preventDefault();
                             openLightbox(index);
@@ -1233,7 +1531,6 @@
                 });
             });
 
-            // 모달창 내부 좌우 스와이프 제스처 처리
             const lightboxModal = document.getElementById('lightboxModal');
             if (lightboxModal) {
                 let modalStartX = 0;
@@ -1253,7 +1550,6 @@
                         const diffX = modalEndX - modalStartX;
                         const diffY = Math.abs(modalEndY - modalStartY);
 
-                        // 가로 스와이프 40px 이상, 세로 이동 60px 이하 시 이미지 변경
                         if (Math.abs(diffX) > 40 && diffY < 60) {
                             if (diffX < 0) {
                                 nextLightboxImage();
@@ -1266,9 +1562,6 @@
             }
         }
 
-        /* ----------------------------------------------------------
-           ACCORDION & COPY & UTILS
-           ---------------------------------------------------------- */
         function toggleAccordion(id) {
             const item = document.getElementById(id);
             if (item) {
@@ -1328,9 +1621,6 @@
             }, 1500);
         }
 
-        /* ----------------------------------------------------------
-           RSVP FORM SUBMISSION & TOGGLE
-           ---------------------------------------------------------- */
         function toggleAttendanceFields(isAttending) {
             const guestCountSelect = document.getElementById("guestCount");
             const mealYesRadio = document.getElementById("meal-yes");
@@ -1355,20 +1645,20 @@
 
         function handleRsvpSubmit(event) {
             event.preventDefault();
-            const side = document.querySelector('input[name="side"]:checked').value === 'groom' ? '신랑측' : '신부측';
-            const name = document.getElementById("guestName").value;
-            const attendance = document.querySelector('input[name="attendance"]:checked').value;
-            const guestCount = document.getElementById("guestCount").value;
-            const meal = document.querySelector('input[name="meal"]:checked').value;
+            const nameInput = document.getElementById("guestName");
+            const name = nameInput ? nameInput.value.trim() : '';
 
-            showToast(`${name}님, 참석 정보가 전달되었습니다.`);
+            // 1. Submit success toast message
+            showToast(`${name ? name + '님, ' : ''}참석 의사가 전달되었습니다.`);
+
+            // 2. Reset form
             document.getElementById("rsvpForm").reset();
             toggleAttendanceFields(true);
+
+            // 3. Close popup cleanly without changing page scroll position
+            closeRsvpPopup();
         }
 
-        /* ----------------------------------------------------------
-           D-DAY COUNTDOWN TIMER
-           ---------------------------------------------------------- */
         function updateDDay() {
             const weddingDate = new Date("2026-09-13T14:50:00+09:00");
             const now = new Date();
@@ -1404,19 +1694,19 @@
         setInterval(updateDDay, 1000);
         updateDDay();
 
-        /* ----------------------------------------------------------
-           INITIALIZATION & OBSERVERS
-           ---------------------------------------------------------- */
         document.addEventListener("DOMContentLoaded", function() {
-            // 카카오톡 인앱 브라우저 대응 갤러리 터치 이벤트 초기화
+            // 1. RSVP 오늘 하루 보지 않기 여부 체크 후 팝업 로드
+            checkAutoOpenRsvp();
+
+            // 2. 갤러리 터치 및 카카오톡 인앱 브라우저 대응
             initGalleryTouchEvents();
 
-            // Fade-up scroll observer
+            // 3. Fade-up scroll observer
             const fadeElements = document.querySelectorAll('.fade-up');
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
+                        if (entry.target && entry.isIntersecting) {
                             entry.target.classList.add('visible');
                         }
                     });
@@ -1427,7 +1717,7 @@
                 fadeElements.forEach(el => el.classList.add('visible'));
             }
 
-            // Gallery slider dot indicator sync
+            // 4. Gallery dot sync
             const slider = document.getElementById('gallerySlider');
             const dots = document.querySelectorAll('#galleryDots .dot');
 
